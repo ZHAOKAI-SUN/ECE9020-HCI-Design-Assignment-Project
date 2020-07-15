@@ -1,25 +1,87 @@
-<FORM name="mycalc">
-    <input name="mydisp" type="Text" size=10 value="0" > <br>
-    <input type="Button" value="7" onclick="digitKey(7)">
-    <input type="Button" value="8" onclick="digitKey(8)">
-    <input type="Button" value="9" onclick="digitKey(9)">
-    <input type="Button" value="X" onclick="oprKey('X')"> <br>
-    <input type="Button" value="4" onclick="digitKey(4)">
-    <input type="Button" value="5" onclick="digitKey(5)">
-    <input type="Button" value="6" onclick="digitKey(6)">
-    <input type="Button" value="/" onclick="oprKey('/')"> <br>
-    <input type="Button" value="1" onclick="digitKey(1)">
-    <input type="Button" value="2" onclick="digitKey(2)">
-    <input type="Button" value="3" onclick="digitKey(3)">
-    <input type="Button" value="-" onclick="oprKey('-')"> <br>
-    <input type="Button" value="0" onclick="digitKey(0)">
-    <input type="Button" value=" " >
-    <input type="Button" value=" " >
-    <input type="Button" value="+" onclick="oprKey('+')">
-    </FORM>
-    <script> 
-    function display(a) { document.forms['mycalc']['mydisp'].value=a; }
+<form name="mycalc">
+  
+  <input name="mydisp" type="Text" size=20 value="0"><br>
+
+  <input type="Button" value="AC"    onclick="AC()">
+  <input type="Button" value="INFIX" onclick="mode_INFIX()">
+  <input type="Button" value="RPN"   onclick="mode_RPN()">
+  <input type="Button" value="÷"     onclick="oprKey('÷')"><br>
+
+  <input type="Button" value="7"     onclick="digitKey(7)">
+  <input type="Button" value="8"     onclick="digitKey(8)">
+  <input type="Button" value="9"     onclick="digitKey(9)">
+  <input type="Button" value="X"     onclick="oprKey('×')"><br>
+
+  <input type="Button" value="4"     onclick="digitKey(4)">
+  <input type="Button" value="5"     onclick="digitKey(5)">
+  <input type="Button" value="6"     onclick="digitKey(6)">
+  <input type="Button" value="-"     onclick="oprKey('-')"><br>
+
+  <input type="Button" value="1"     onclick="digitKey(1)">
+  <input type="Button" value="2"     onclick="digitKey(2)">
+  <input type="Button" value="3"     onclick="digitKey(3)">
+  <input type="Button" value="+"     onclick="oprKey('+')"><br>
+
+  <input type="Button" value="0"     onclick="digitKey(0)">
+  <input type="Button" value="."     onclick="decimal()">
+  <input type="Button" value="="     onclick="oprKey('=')"><br>
+
+</form>
+
+<script>
+
+  var flag_decimal = 0;
+  var num_new = 0;
+  var num_display = 0;
+  var i = 1;
+
+
+  function AC () {
+    document.forms['mycalc']['mydisp'].value=0;
+    flag_decimal = 0;
+    num_new = 0;
+    num_display = 0;
+    i = 1;
+  }
+
+  function mode_INFIX () {
+    alert("INFIX");
+  }
+
+  function mode_RPN () {
+    alert("RPN");
+  }
+
+  function digitKey (key) {
+    display(key);
+  }
+
+  function decimal () {
+    flag_decimal = 1;
+  }
+
+  function display(num_new) {
+    if (flag_decimal == 0) {
+      num_display = num_display*10 + num_new;
+      document.forms['mycalc']['mydisp'].value=num_display;
+    }
+    else {
+      num_display = num_display + num_new/Math.pow(10,i);
+      document.forms['mycalc']['mydisp'].value=num_display;
+      i = i+1;
+    }
+  }
+
+
     var opr = ' ';
+    
+    function oprKey (key) {
+       if(opr==' ') ans = num;
+        else   ans = apply(ans,opr,num);
+       display(ans);
+       opr = key;
+    }
+
     function apply (a,op,n) {
       switch (op) {
           case "+": return a += n; 
@@ -28,37 +90,9 @@
           case "/": return a /= n;
         } 
     }
-    function digitKey (key) {
-         num = key; 
-         display(num);
-      } 
-    function oprKey (key) {
-       if(opr==' ') ans = num;
-        else   ans = apply(ans,opr,num);
-       display(ans);
-       opr = key;
-    }
-    </script>
 
-<style>
-    input {
-      height: 30px;
-      width: 20px;
-      padding: 5px 5px 5px 5px;
-      box-sizing: border-box;
-     }
-     input[type=text] { width: 100px; }
-   </style>
-   
-   <style>
-    input {
-      height: 30px;
-      width: 20px;
-      padding: 5px 5px 5px 5px;
-     }
-     input[type=text] {
-       height: 15px; width: 80px; }
-     form { 
-       width: 100px;
-       border: solid #5B6DCD 10px; }
-   </style>
+
+
+
+
+</script>
