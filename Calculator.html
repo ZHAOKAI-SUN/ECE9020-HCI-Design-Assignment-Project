@@ -33,10 +33,9 @@
   var flag_decimal = 0;
   var num_new = 0;
   var num_display = 0;
+  var num_lastone = 0;
   var i = 1;
-
   var opr = '';
-  var ans = 0;
 
   function AC () {
     document.forms['mycalc']['mydisp'].value=0;
@@ -54,52 +53,52 @@
     alert("RPN");
   }
 
-  function digitKey (key) {
-    display(key);
+  function digitKey (num_new) {
+    if (flag_decimal == 0) {
+      num_display = num_display*10 + num_new;
+      display(num_display);
+    }
+    else {
+      num_display = (num_display*Math.pow(10,i) + num_new)/Math.pow(10,i);
+      i = i+1;
+      display(num_display);
+    }
   }
 
   function decimal () {
     flag_decimal = 1;
   }
 
-  function display(num_new) {
-    if (flag_decimal == 0) {
-      num_display = num_display*10 + num_new;
+  function display(num_display) {
       document.forms['mycalc']['mydisp'].value = num_display;
-    }
-    else {
-      num_display = (num_display*Math.pow(10,i) + num_new)/Math.pow(10,i);
-      document.forms['mycalc']['mydisp'].value = num_display;
-      i = i+1;
-    }
   }
  
   function oprKey (key) {
     if (opr == '') {
-      ans = num_display;
+      num_lastone = num_display;
       flag_decimal = 0;
       num_new = 0;
       num_display = 0;
       i = 1;
     }
     else {
-      ans = apply(ans,opr,num_display);
-      display(ans);
-      opr = key;
+      num_lastone = calculate (num_lastone,opr,num_display);
+      flag_decimal = 0;
+      num_new = 0;
+      num_display = 0;
+      i = 1;
     }
+    display(num_lastone);
+    opr = key;
   }
 
-    function apply (a,op,n) {
-      switch (op) {
-          case "+": return a += n; 
-          case "-": return a -= n;
-          case "×": return a *= n;
-          case "÷": return a /= n;
-        } 
-    }
-
-
-
-
+  function calculate (num_lastone,opr,num_display) {
+    switch (opr) {
+      case "+": return num_lastone += num_display; 
+      case "-": return num_lastone -= num_display;
+      case "×": return num_lastone *= num_display;
+      case "÷": return num_lastone /= num_display;
+    } 
+  }
 
 </script>
