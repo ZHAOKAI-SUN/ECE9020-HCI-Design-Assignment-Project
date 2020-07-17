@@ -10,7 +10,7 @@
   <input type="Button" value="7"     onclick="digitKey(7)">
   <input type="Button" value="8"     onclick="digitKey(8)">
   <input type="Button" value="9"     onclick="digitKey(9)">
-  <input type="Button" value="X"     onclick="oprKey('×')"><br>
+  <input type="Button" value="×"     onclick="oprKey('×')"><br>
 
   <input type="Button" value="4"     onclick="digitKey(4)">
   <input type="Button" value="5"     onclick="digitKey(5)">
@@ -35,6 +35,8 @@
   var num_display = 0;
   var i = 1;
 
+  var opr = '';
+  var ans = 0;
 
   function AC () {
     document.forms['mycalc']['mydisp'].value=0;
@@ -63,31 +65,36 @@
   function display(num_new) {
     if (flag_decimal == 0) {
       num_display = num_display*10 + num_new;
-      document.forms['mycalc']['mydisp'].value=num_display;
+      document.forms['mycalc']['mydisp'].value = num_display;
     }
     else {
-      num_display = num_display + num_new/Math.pow(10,i);
-      document.forms['mycalc']['mydisp'].value=num_display;
+      num_display = (num_display*Math.pow(10,i) + num_new)/Math.pow(10,i);
+      document.forms['mycalc']['mydisp'].value = num_display;
       i = i+1;
     }
   }
-
-
-    var opr = ' ';
-    
-    function oprKey (key) {
-       if(opr==' ') ans = num;
-        else   ans = apply(ans,opr,num);
-       display(ans);
-       opr = key;
+ 
+  function oprKey (key) {
+    if (opr == '') {
+      ans = num_display;
+      flag_decimal = 0;
+      num_new = 0;
+      num_display = 0;
+      i = 1;
     }
+    else {
+      ans = apply(ans,opr,num_display);
+      display(ans);
+      opr = key;
+    }
+  }
 
     function apply (a,op,n) {
       switch (op) {
           case "+": return a += n; 
           case "-": return a -= n;
-          case "X": return a *= n;
-          case "/": return a /= n;
+          case "×": return a *= n;
+          case "÷": return a /= n;
         } 
     }
 
