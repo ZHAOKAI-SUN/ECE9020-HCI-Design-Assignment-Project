@@ -36,21 +36,26 @@
   var num_lastone = 0;
   var i = 1;
   var opr = '';
+  var mode = 'INFIX';
 
   function AC () {
     document.forms['mycalc']['mydisp'].value=0;
     flag_decimal = 0;
     num_new = 0;
     num_display = 0;
+    num_lastone = 0;
     i = 1;
+    opr = '';
   }
 
   function mode_INFIX () {
-    alert("INFIX");
+    mode = 'INFIX';
+    AC();
   }
 
   function mode_RPN () {
-    alert("RPN");
+    mode = 'RPN';
+    AC();
   }
 
   function digitKey (num_new) {
