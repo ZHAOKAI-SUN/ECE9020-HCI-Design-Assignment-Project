@@ -75,12 +75,8 @@
     flag_decimal = 1;
   }
 
-  function display(num_display) {
-      document.forms['mycalc']['mydisp'].value = num_display;
-  }
- 
-  function oprKey (key) {
-    if (opr == '') {
+  function enter () {
+    if (mode == 'RPN') {
       num_lastone = num_display;
       flag_decimal = 0;
       num_new = 0;
@@ -88,14 +84,53 @@
       i = 1;
     }
     else {
-      num_lastone = calculate (num_lastone,opr,num_display);
-      flag_decimal = 0;
-      num_new = 0;
-      num_display = 0;
-      i = 1;
+      alert('In INFIX mode, this operation is invalid.');
     }
+  }
+
+  function display(num_display) {
+      document.forms['mycalc']['mydisp'].value = num_display;
+  }
+
+  function oprKey (key) {
+    if (mode == 'RPN') {
+      if (num_lastone == '') {
+        alert('In RPN mode, enter the arithmetic symbol at the end.');
+      }
+      else {
+        if (key == '=') {
+          alert('In RPN mode, the symbol is invalid.');
+          num_display = 0;
+        }
+        else {
+          opr = key;
+          num_lastone = calculate (num_lastone,opr,num_display);
+          flag_decimal = 0;
+          num_new = 0;
+          num_display = 0;
+          i = 1;
+        }
+      }
+    display(num_lastone);
+    }
+    else {
+      if (opr == '') {
+        num_lastone = num_display;
+        flag_decimal = 0;
+        num_new = 0;
+        num_display = 0;
+        i = 1;
+      }
+      else {
+        num_lastone = calculate (num_lastone,opr,num_display);
+        flag_decimal = 0;
+        num_new = 0;
+        num_display = 0;
+        i = 1;
+      }
     display(num_lastone);
     opr = key;
+    }
   }
 
   function calculate (num_lastone,opr,num_display) {
